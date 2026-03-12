@@ -1,0 +1,14 @@
+# 환경변수 (개인 토큰 포함)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
