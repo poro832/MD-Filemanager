@@ -10,14 +10,16 @@ Markdown 파일을 Notion 페이지에 업로드하는 Python 스크립트 모�
 | `upload_to_subpage.py` | 특정 서브페이지를 찾아(없으면 생성) MD 파일 업로드 |
 | `watcher.py` | 디렉토리를 감시하다가 새 `.md` 파일 생성 시 자동 업로드 |
 | `md_to_notion.py` | Markdown → Notion 블록 변환 공통 모듈 |
+| `cleanup_notion_md.py` | MD 파일 내 불필요한 도형/차트 잔재 자동 정리 |
 
 ## 지원하는 Markdown 요소
 
-- 제목 H1 / H2 / H3
-- **볼드**, `인라인 코드`
+- 제목 H1 / H2 / H3 / H4(볼드 단락으로 변환, `(계속)` 항목 자동 제거)
+- **볼드**, `인라인 코드` 인라인 서식
 - 코드 블록 (언어 감지, 2000자 자동 분할)
 - 표 (헤더 + 구분선 패턴)
-- 불릿 리스트 / 번호 리스트
+- 불릿 리스트 (들여쓰기 중첩 지원) / 번호 리스트
+- callout 블록 (`> 📌` / `> 💡`)
 - 인용문 (`>`)
 - 구분선 (`---`)
 
@@ -58,6 +60,9 @@ python upload_all.py
 
 # 특정 디렉토리 지정
 python upload_all.py ./my_notes
+
+# 기존 동일 제목 페이지 삭제 후 재업로드 (수정 내용 반영 시)
+python upload_all.py ./my_notes --clean
 ```
 
 ### 서브페이지에 업로드
@@ -81,3 +86,12 @@ python watcher.py ./my_notes
 ```
 
 새 `.md` 파일을 저장하면 자동으로 Notion에 업로드된다. `Ctrl+C`로 종료.
+
+### MD 파일 정리 (업로드 전 전처리)
+
+```bash
+# PPT 변환 등으로 생긴 도형/차트 잔재 제거
+python cleanup_notion_md.py
+```
+
+`cleanup_notion_md.py` 내 `folder` 변수를 정리할 디렉토리 경로로 수정 후 실행.
