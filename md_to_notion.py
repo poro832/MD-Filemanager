@@ -30,9 +30,9 @@ LANG_MAP = {
 
 
 def parse_inline(text: str) -> list:
-    """볼드(**text**), 인라인 코드(`code`)를 Notion rich_text 형식으로 변환"""
+    """볼드(**text**), 이탤릭(*text*), 인라인 코드(`code`)를 Notion rich_text 형식으로 변환"""
     rich_text = []
-    pattern = r'(\*\*[^*]+\*\*|`[^`]+`)'
+    pattern = r'(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)'
     parts = re.split(pattern, text)
     for part in parts:
         if not part:
@@ -48,6 +48,12 @@ def parse_inline(text: str) -> list:
                 "type": "text",
                 "text": {"content": part[1:-1]},
                 "annotations": {"code": True}
+            })
+        elif part.startswith('*') and part.endswith('*') and len(part) > 2:
+            rich_text.append({
+                "type": "text",
+                "text": {"content": part[1:-1]},
+                "annotations": {"italic": True}
             })
         else:
             rich_text.append({"type": "text", "text": {"content": part}})

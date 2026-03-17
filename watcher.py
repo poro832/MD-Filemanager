@@ -1,18 +1,3 @@
-"""
-watcher.py
-지정 디렉토리를 감시하다가 새 .md 파일이 생성되면 자동으로 Notion에 업로드.
-
-사용법:
-    python watcher.py              # WATCH_DIR 감시
-    python watcher.py ./my_notes   # 특정 디렉토리 감시
-    Ctrl+C 로 종료
-
-.env 설정:
-    NOTION_TOKEN=secret_xxx
-    PAGE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    WATCH_DIR=.  (선택)
-"""
-
 import time
 import os
 import sys
@@ -73,7 +58,7 @@ if __name__ == "__main__":
 
     event_handler = MDHandler()
     observer = Observer()
-    observer.schedule(event_handler, watch_path, recursive=False)
+    observer.schedule(event_handler, watch_path, recursive=True)
     observer.start()
 
     try:

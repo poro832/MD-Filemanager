@@ -109,7 +109,7 @@ def upload_md(parent_id: str, filepath: str):
         new_id = new_page["id"]
         for i in range(100, len(blocks), 100):
             notion.blocks.children.append(block_id=new_id, children=blocks[i:i+100])
-        print(f"  [완료] '{title}'")
+        print(f"  [완료] '{title}' ({len(blocks)}블록)")
     except Exception as e:
         print(f"  [실패] '{title}': {e}")
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     # 업로드
     if target.is_dir():
-        md_files = list(target.glob("*.md"))
+        md_files = list(target.rglob("*.md"))
         if not md_files:
             print(f"디렉토리에 .md 파일이 없습니다: {target}")
             sys.exit(0)
